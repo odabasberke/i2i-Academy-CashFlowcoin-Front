@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color tokens - deliberately not the generic near-black + acid-green
+     crypto-app default: a slightly blue-shifted near-black, a teal signal
+     accent (not money-app green), and separate buy/sell hues so the brand
+     color never doubles as a directional indicator. */
+  --color-ink: #0b0e14;
+  --color-panel: #131722;
+  --color-panel-raised: #1a1f2e;
+  --color-hairline: #232838;
+  --color-text: #e6e9f0;
+  --color-text-muted: #8891a7;
+  --color-signal: #5eead4;
+  --color-signal-dim: #3b9c8f;
+  --color-buy: #34d399;
+  --color-sell: #fb7185;
+  --color-warn: #fbbf24;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tabular figures everywhere numbers live - this is what actually keeps
+     price columns from jittering in width as digits change, not just a
+     stylistic choice. */
+  .font-data {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@keyframes flash-buy {
+  0% {
+    background-color: rgb(52 211 153 / 0.18);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes flash-sell {
+  0% {
+    background-color: rgb(251 113 133 / 0.18);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.price-flash-up {
+  animation: flash-buy 900ms ease-out;
+}
+
+.price-flash-down {
+  animation: flash-sell 900ms ease-out;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker-scroll 28s linear infinite;
+}
