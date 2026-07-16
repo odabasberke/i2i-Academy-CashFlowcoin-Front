@@ -9,7 +9,10 @@ import { eventBus } from '../lib/eventBus'
  * in the root README.
  */
 export const apiClient = axios.create({
-  baseURL: '/api',
+  // Eski hali: baseURL: '/api',
+  // Yeni hali: .env dosyasındaki adresi okuyup sonuna /api ekliyoruz.
+  baseURL: import.meta.env.VITE_API_URL + '/api',
+  
   // AI queries are the slowest call in the app - GeminiClient's own read
   // timeout on the backend is 12s, so the client needs enough headroom on
   // top of that (plus network) rather than racing it.
